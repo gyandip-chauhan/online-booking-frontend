@@ -31,7 +31,7 @@ const { id } = useParams<{ id: string }>();
   };
 
   return (
-    <div className="bg-gradient-to-b from-indigo-900 to-gray-800 text-white min-h-screen">
+    <div className="bg-white text-gray-800 flex flex-col min-h-screen relative">
       <div className="container mx-auto py-12">
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2 mb-6 md:mb-0">

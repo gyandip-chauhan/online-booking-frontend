@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './App.css';
+import ErrorPage from './components/Layout/ErrorPage';
 
 const App = () => {
   const [userData, setUserData] = useState<any>(null);
@@ -58,6 +59,8 @@ const App = () => {
                 <Route path="/bookings" element={<BookingList />} />
               </>
             )}
+            {/* Catch all undefined routes */}
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
         <Footer />
