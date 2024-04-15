@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useParams, useLocation, Link } from 'react-router-dom';
 import ApiService from '../../services/apiService';
 import { API_SHOWTIME_DETAILS } from '../../services/apiEndpoints';
 import screenIcon from './screen-icon.png';
@@ -21,6 +21,7 @@ const Details: React.FC = ({setStripeOptions}: any) => {
   const [selectedSeats, setSelectedSeats] = useState<any>({});
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [paymentPopup, setPaymentPopup] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchShowtimeData();
@@ -84,6 +85,14 @@ const Details: React.FC = ({setStripeOptions}: any) => {
 
   const handleBookNow = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    const userData = localStorage.getItem('userData');
+    if (!userData) {
+      navigate('/login');
+      toast.error('You need to sign in or sign up before continuing.')
+      return;
+    }
+
     setPaymentPopup(true)
   }; 
 
