@@ -1,0 +1,38 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="200"
+  height="300"
+  viewBox="0 0 200 300"
+  fill="none"
+  xmlnsXlink="http://www.w3.org/1999/xlink"
+>
+  <rect x="0.5" y="0.5" width="199" height="299" rx="15" fill="#E5E7EB" stroke="#4B5563" />
+  <path
+    fillRule="evenodd"
+    clipRule="evenodd"
+    d="M100.5 20C126.844 20 148.5 41.6569 148.5 68V232C148.5 258.343 126.844 280 100.5 280C74.1569 280 52.5 258.343 52.5 232V68C52.5 41.6569 74.1569 20 100.5 20Z"
+    fill="#F9FAFB"
+  />
+  <rect x="30" y="100" width="140" height="140" fill="#D1D5DB" />
+  <path
+    fillRule="evenodd"
+    clipRule="evenodd"
+    d="M100.5 86C123.009 86 140 102.991 140 125.5C140 148.009 123.009 165 100.5 165C77.991 165 61 148.009 61 125.5C61 102.991 77.991 86 100.5 86Z"
+    fill="#D1D5DB"
+  />
+  <circle cx="101" cy="125" r="31" fill="#1F2937" />
+  <path
+    fillRule="evenodd"
+    clipRule="evenodd"
+    d="M98.5 128C98.5 126.895 99.395 126 100.5 126C101.605 126 102.5 126.895 102.5 128V135C102.5 136.105 101.605 137 100.5 137C99.395 137 98.5 136.105 98.5 135V128Z"
+    fill="#F9FAFB"
+  />
+  <circle cx="102" cy="124" r="5" fill="#E5E7EB" />
+  <circle cx="94" cy="124" r="5" fill="#E5E7EB" />
+  <rect x="120" y="114" width="28" height="8" rx="4" fill="#E5E7EB" />
+  <rect x="120" y="126" width="28" height="8" rx="4" fill="#E5E7EB" />
+  <rect x="120" y="138" width="28" height="8" rx="4" fill="#E5E7EB" />
+  <rect x="53" y="210" width="94" height="8" rx="4" fill="#D1D5DB" />
+  <rect x="53" y="224" width="130" height="8" rx="4" fill="#D1D5DB" />
+  <rect x="53" y="238" width="100" height="8" rx="4" fill="#D1D5DB" />
+</svg>
