@@ -8,6 +8,8 @@ import { API_MOVIES } from '../../services/apiEndpoints';
 import { Movie } from '../../services/types';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'; 
 
 const Home: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -29,15 +31,33 @@ const Home: React.FC = () => {
   const handleMovieClick = (movieId: number) => {
     navigate(`/movies/${movieId}`);
   };
+
+  const SampleNextArrow = (props:any) => {
+    const { className, style, onClick } = props;
+    return (
+    
+      <div><NavigateNextIcon className={className} style={{ ...style, color: "black" }} onClick={onClick} /></div>
+    );
+  }
+
+  const SamplePrevArrow = (props:any) => {
+    const { className, style, onClick } = props;
+    return (
+
+      <div><NavigateBeforeIcon className={className} style={{ ...style, color: "black" }} onClick={onClick} /></div>
+    );
+  }
   
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 3,
     autoplay: true,
-    autoplaySpeed: 1500
+    autoplaySpeed: 1500,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
   };
   
   return (

@@ -7,7 +7,6 @@ import LoginForm from './components/Authentication/LoginForm';
 import SignupForm from './components/Authentication/SignupForm';
 import ForgotPasswordForm from './components/Authentication/ForgotPasswordForm';
 import ResetPasswordForm from './components/Authentication/ResetPasswordForm';
-import ResendConfirmationForm from './components/Authentication/ResendConfirmationForm';
 import ShowTimeList from './components/ShowTime/List';
 import ShowTimeDetails from './components/ShowTime/Details';
 import InvoicePage from './components/Booking/Invoice';
@@ -48,7 +47,6 @@ const App = () => {
             <Route path="/signup" element={<SignupForm setUserData={setUserData}/>} />
             <Route path="/forgot-password" element={<ForgotPasswordForm />} />
             <Route path="/reset-password" element={<ResetPasswordForm />} />
-            <Route path="/resend-confirmation" element={<ResendConfirmationForm />} />
             <Route path="/movies" element={<MovieList />} />
             <Route path="/movies/:id" element={<MovieDetails />} />
             <Route path="/showtimes" element={<ShowTimeList />} />

@@ -11,8 +11,21 @@ export interface Screen {
   attributes: {
     id: number;
     name: string;
+    created_at: string;
+    updated_at: string;
   }
 }
+export interface MovieCastAndCrew {
+  attributes: {
+    id: number;
+    name: string;
+    kind: string;
+    role: string;
+    movie_id: number;
+    image_url: string;
+  }
+}
+
 
 export interface Movie {
   attributes: {
@@ -25,6 +38,8 @@ export interface Movie {
     avatar_url: string;
     showtimes: {data: Showtime[]};
     theater: {data: Theater};
+    casts: {data: MovieCastAndCrew[];};
+    crews: {data: MovieCastAndCrew[];};
   }
 }
 
@@ -63,9 +78,18 @@ export interface User {
   balance: number;
 }
 
-export interface CategoriesResponse {
+export interface PriceRange {
+  value: string;
+  label: string;
+}
+
+export interface ShowTimesResponse {
   data: {
-    categories: {data: Category[]};
+    showtimes: {data: Showtime[]};
+    movie: {data: Movie};
+    price_ranges: PriceRange[];
+    theaters: {data: Theater[];}
+    screens: {data: Screen[];}
   }
 }
 

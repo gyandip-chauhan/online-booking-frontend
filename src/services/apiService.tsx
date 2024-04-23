@@ -1,7 +1,7 @@
 // src/services/apiService.tsx
 import axios from 'axios';
 
-const baseURL = 'http://192.168.31.211:3000/internal_api/v1';
+const baseURL = 'http://192.168.31.176:3000/internal_api/v1';
 // const baseURL = 'http://localhost:3000/internal_api/v1';
 
 const ApiService = axios.create({

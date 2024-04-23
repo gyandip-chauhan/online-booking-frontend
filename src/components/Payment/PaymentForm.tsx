@@ -10,7 +10,8 @@ export default function PaymentForm({ selectedSeats, showtimeId, closePopup }: a
     const elements = useElements();
     const navigate = useNavigate();
 
-    const [message, setMessage] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [successMessage, setSuccessMessage] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleSubmit = async (e: any) => {
@@ -38,11 +39,15 @@ export default function PaymentForm({ selectedSeats, showtimeId, closePopup }: a
                 throw new Error(pmError.message);
             }
 
+            setSuccessMessage('Payment method created!')
+
             const intentResponse = await ApiService.post(API_STRIPE_INTENT, {
                 data: { attributes: { selected_seats: selectedSeats, showtime_id: showtimeId }, payment_token: paymentMethod.id }
             });
 
-            const { client_secret, booking_id: bookingId } = intentResponse.data;
+            const { client_secret, booking_id: bookingId, notice } = intentResponse.data;
+            
+            setSuccessMessage(notice);
 
             const { error, paymentIntent }: any = await stripe.confirmCardPayment(client_secret, {
                 payment_method: {
@@ -55,9 +60,13 @@ export default function PaymentForm({ selectedSeats, showtimeId, closePopup }: a
             }
 
             if (paymentIntent && paymentIntent.status === 'succeeded') {
+                setSuccessMessage('Payment succeeded!')
+
                 const response = await ApiService.put(API_STRIPE_CONFIRM, {
                     data: { payment_intent_id: paymentIntent.id, stripe_payment_id: paymentMethod.id }
                 });
+
+                setSuccessMessage(response.data.notice)
 
                 navigate(`/bookings/${bookingId}/invoice?showtime_id=${showtimeId}`);
                 closePopup();
@@ -66,10 +75,10 @@ export default function PaymentForm({ selectedSeats, showtimeId, closePopup }: a
         } catch (error) {
           const err = error as any;
           if (err.response && err.response.data && err.response.data.error) {
-            setMessage("An error occurred during payment confirmation.");
+            setErrorMessage("An error occurred during payment confirmation.");
             toast.error(err.response.data.error);
           } else {
-            setMessage("An unexpected error occurred during payment confirmation.");
+            setErrorMessage("An unexpected error occurred during payment confirmation.");
             toast.error(`${err}`);
           }
         }
@@ -91,6 +100,13 @@ export default function PaymentForm({ selectedSeats, showtimeId, closePopup }: a
             iconColor: "#fa755a",
           },
         },
+        classes: {
+          base: "border rounded p-2",
+          complete: "text-green-500", // Style for complete input
+          empty: "text-gray-500", // Style for empty input
+          focus: "border-blue-500", // Style for input in focus
+          invalid: "border-red-500", // Style for invalid input
+        },
     };
 
     return (
@@ -99,7 +115,7 @@ export default function PaymentForm({ selectedSeats, showtimeId, closePopup }: a
                 <label htmlFor="card-element" className="block text-sm font-medium text-gray-700">
                     Card Details
                 </label>
-                <CardElement id="card-element" options={CARD_ELEMENT_OPTIONS} />
+                <CardElement id="card-element" options={CARD_ELEMENT_OPTIONS} className="border rounded p-2 focus:border-blue-500" />
             </div>
             <button
                 className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
@@ -113,7 +129,8 @@ export default function PaymentForm({ selectedSeats, showtimeId, closePopup }: a
                 {isLoading ? 'Processing...' : 'Pay Now'}
             </span>
             </button>
-            {message && <div className="mt-2 text-sm text-red-600" id="payment-message">{message}</div>}
+            {errorMessage && <div className="mt-2 text-sm text-red-600" id="payment-message">{errorMessage}</div>}
+            {successMessage && <div className="mt-2 text-sm text-green-600" id="payment-message">{successMessage}</div>}
         </form>
     );
 }

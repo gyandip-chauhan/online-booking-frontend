@@ -24,7 +24,8 @@ const List: React.FC = () => {
   };
 
   const handleMovieClick = (movie: Movie) => {
-    navigate(`/showtimes?movie_id=${movie.attributes.id}`);
+    // navigate(`/showtimes?movie_id=${movie.attributes.id}`);
+    navigate(`/movies/${movie.attributes.id}`);
   };
 
   return (

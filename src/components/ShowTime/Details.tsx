@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation, Link } from 'react-router-dom';
 import ApiService from '../../services/apiService';
 import { API_SHOWTIME_DETAILS } from '../../services/apiEndpoints';
-import screenIcon from './screen-icon.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDesktop } from '@fortawesome/free-solid-svg-icons';
 import StripeContainer from '../Payment/StripeContainer';
 import { toast } from 'react-toastify';
 
@@ -107,7 +108,7 @@ const Details: React.FC = ({setStripeOptions}: any) => {
       
       {/* Theater Screen */}
       <div className="flex justify-center items-center mb-5">
-        <img src={screenIcon} alt="Screen Icon" className="w-16 h-16 mr-4" />
+        <FontAwesomeIcon icon={faDesktop} className="w-16 h-16 mr-4 text-gray-800" />
       </div>
       
       {/* Seats Layout */}
@@ -200,7 +201,7 @@ const Details: React.FC = ({setStripeOptions}: any) => {
               Book Now
             </button>
             <Link
-              to="/showtimes"
+              to={`/showtimes?movie_id=${movie_id}`}
               className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300 ease-in-out"
             >
               Back

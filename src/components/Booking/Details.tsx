@@ -30,9 +30,10 @@ const Details: React.FC<Props> = ({ booking, category, setActiveTab, fetchData }
 
   const confirmCancelBooking = async () => {
     try {
-      await ApiService.get(API_CANCEL_BOOKING(bookingId));
+      const response = await ApiService.get(API_CANCEL_BOOKING(bookingId));
       fetchData();
       setActiveTab('cancelled_bookings');
+      toast.success(`${response.data.notice}`);
     } catch (error) {
       toast.error(`${error}`);
     }
