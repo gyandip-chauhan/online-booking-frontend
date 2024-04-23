@@ -24,7 +24,7 @@ const SignupForm = ({ setUserData }: any) => {
       const response = await ApiService.post(API_SIGNUP, { user: values });
       localStorage.setItem('userData', JSON.stringify(response.data.user));
       setUserData(response.data.user);
-      navigate('/showtimes');
+      navigate('/movies');
       toast.success(`${response.data.notice}`);
     } catch (error) {
       setErrors({ apiError: 'Signup failed' });

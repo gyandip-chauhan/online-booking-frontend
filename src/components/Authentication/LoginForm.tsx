@@ -20,7 +20,7 @@ const LoginForm = ({ setUserData }: any) => {
       const response = await ApiService.post(API_LOGIN, { user: values });
       localStorage.setItem('userData', JSON.stringify(response.data.user));
       setUserData(response.data.user);
-      navigate('/showtimes');
+      navigate('/movies');
       toast.success(`${response.data.notice}`);
     } catch (error) {
       const err = error as any;
