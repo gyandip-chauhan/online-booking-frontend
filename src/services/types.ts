@@ -26,7 +26,6 @@ export interface MovieCastAndCrew {
   }
 }
 
-
 export interface Movie {
   attributes: {
     id: number;
@@ -113,5 +112,13 @@ export interface SeatCategory {
   attributes: {
     id: number;
     name: string;
+  }
+}
+
+export interface Notification {
+  attributes: {
+    id: number;
+    message: string;
+    read_at:string;
   }
 }

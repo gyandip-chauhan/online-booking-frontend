@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { User } from '../../services/types';
 import { toast } from 'react-toastify';
 import ApiService from '../../services/apiService';
-import { API_LOGOUT } from '../../services/apiEndpoints';
+import { API_LOGOUT, API_NOTIFICATIONS, API_NOTIFICATIONS_MARK_ALL_AS_READ } from '../../services/apiEndpoints';
 import { useNavigate } from 'react-router-dom';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Badge from '@mui/material/Badge';
+import IconButton from '@mui/material/IconButton';
+import { Notification } from '../../services/types';
+import { Button, Popover } from '@mui/material';
 
 interface HeaderProps {
   userData: User;
@@ -14,6 +19,31 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ userData, setUserData }) => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState<string>('');
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await ApiService.get(API_NOTIFICATIONS);
+        setNotifications(response.data.notifications.data);
+        setUnreadCount(response.data.unread_count);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+  
+  const handleClick = (event:any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleLogout = async () => {
     try {
@@ -30,6 +60,17 @@ const Header: React.FC<HeaderProps> = ({ userData, setUserData }) => {
 
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
+  };
+
+  const markAllAsRead = async (notificationId:any) => {
+    try {
+      const response = await ApiService.post(API_NOTIFICATIONS_MARK_ALL_AS_READ(notificationId));
+      setNotifications(response.data.notifications.data);
+      setUnreadCount(response.data.unread_count);
+      handleClose()
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error);
+    }
   };
 
   return (
@@ -59,6 +100,35 @@ const Header: React.FC<HeaderProps> = ({ userData, setUserData }) => {
                 >
                   Bookings
                 </Link>
+                <IconButton onClick={handleClick} color="primary">
+                  <Badge badgeContent={unreadCount} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <Popover
+                  open={Boolean(anchorEl)}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <div className="p-4">
+                    <Button onClick={() => markAllAsRead('')} variant="contained" color="primary" className="mb-2">
+                      Mark All as Read
+                    </Button>
+                    {notifications.map((notification, index) => (
+                      <div key={index} className={`${!notification.attributes.read_at && 'cursor-pointer'} py-2 ${notification.attributes.read_at ? 'text-gray-700' : 'font-bold'}`} onClick={() => !notification.attributes.read_at && markAllAsRead(notification.attributes.id)}>
+                        {notification.attributes.message}
+                      </div>
+                    ))}
+                  </div>
+                </Popover>
                 <div className="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-transparent rounded transition-colors duration-300">
                   Welcome, <span className="font-bold">{userData.email}</span>
                 </div>
