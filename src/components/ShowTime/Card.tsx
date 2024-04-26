@@ -77,7 +77,8 @@ const Card: React.FC<CardProps> = ({ showTimes }) => {
       ) : (
         groupedShowtimes.map(({ theater, screens }) => (
           <div key={theater.attributes.id} className="bg-white mb-8 rounded-lg shadow-md p-6 lg:flex lg:items-center justify-between">
-            <div className="lg:mr-8">
+            {/* Theater Details */}
+            <div className="lg:w-1/4">
               <div className="flex items-center">
                 <StarIcon className="text-yellow-500 text-2xl" />
                 <h2 className="font-bold text-lg text-gray-900 ml-2">{theater.attributes.name}</h2>
@@ -87,25 +88,32 @@ const Card: React.FC<CardProps> = ({ showTimes }) => {
                 <p className="text-sm text-gray-700 ml-1">{theater.attributes.location}</p>
               </div>
             </div>
-            <div className="mt-4 lg:mt-0 grid gap-4 grid-cols-2 lg:grid-cols-4">
-              {Object.values(screens).map(({ screen, showtimes }) => (
-                <div key={screen.attributes.id} className="bg-blue-100 rounded-lg shadow-md p-4">
-                  <h3 className="font-bold text-sm text-gray-900">{screen.attributes.name}</h3>
-                  <div className="flex flex-wrap mt-2">
-                    {showtimes.map((showtime) => (
-                      <button
-                        key={showtime.attributes.id}
-                        onClick={() => handleBookNowClick(showtime)}
-                        className="bg-blue-500 text-white px-3 py-1 rounded-md mb-2 inline-block cursor-pointer mr-2"
-                      >
-                        {formatShowtime(showtime.attributes.time)}
-                      </button>
-                    ))}
+            
+            {/* Screen Details */}
+            <div className="lg:w-4/6 overflow-x-auto">
+              <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+                {Object.values(screens).map(({ screen, showtimes }) => (
+                  <div key={screen.attributes.id} className="bg-blue-100 rounded-lg shadow-md p-4">
+                    <h3 className="font-bold text-sm text-gray-900">{screen.attributes.name}</h3>
+                    <div className="flex flex-wrap mt-2">
+                      {showtimes.map((showtime) => (
+                        <button
+                          key={showtime.attributes.id}
+                          onClick={() => handleBookNowClick(showtime)}
+                          className="bg-blue-500 text-white px-3 py-1 rounded-md mb-2 cursor-pointer mr-2"
+                          style={{ whiteSpace: 'nowrap' }}
+                        >
+                          {formatShowtime(showtime.attributes.time)}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-            <div className="mt-4 text-sm text-gray-500 bg-green-100 px-3 py-1 rounded-md inline-block">Cancellation Available</div>
+            
+            {/* Cancellation Notice */}
+            <div className="lg:w-1/6 text-sm text-gray-500 bg-green-100 px-3 py-1 rounded-md inline-block">Cancellation Available</div>
           </div>
         ))
       )}

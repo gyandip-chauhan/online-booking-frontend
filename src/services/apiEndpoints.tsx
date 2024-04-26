@@ -20,3 +20,6 @@ export const API_CANCEL_BOOKING = (id: number) => `/bookings/${id}/cancel`;
 
 export const API_MOVIES = '/movies';
 export const API_MOVIE_DETAILS = (id: string) => `/movies/${id}`;
+
+export const API_NOTIFICATIONS = '/notifications';
+export const API_NOTIFICATIONS_MARK_ALL_AS_READ = (notificationId: string) => `notifications/mark_as_read?notification_id=${notificationId}`;
